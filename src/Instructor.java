@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 public class Instructor {
 
@@ -8,36 +9,41 @@ public class Instructor {
     public int phoneNumber;
     public int officeHours;
 
+    Scanner input = new Scanner(System.in);
+
     public String getInstructorFirst(){
         return instructorFirst;
     }
 
-    public void setInstructorFirst(String f){
-        instructorFirst=f;
+    public void setInstructorFirst(){
+        System.out.println("Professor's First Name:");
+        instructorFirst=input.nextLine();
     }
-
     public String getInstructorLast(){
         return instructorLast;
     }
 
-    public void setInstructorLast(String l){
-        instructorLast=l;
+    public void setInstructorLast(){
+        System.out.println("Professor's Last Name:");
+        instructorLast=input.nextLine();
     }
 
     public String getEmail(){
         return email;
     }
 
-    public void setEmail(String e){
-        email=e;
+    public void setEmail(){
+        System.out.println("Enter the Professor's Email address:");
+        email=input.nextLine();
     }
 
     public int getPhoneNumber(){
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int p){
-        phoneNumber=p;
+    public void setPhoneNumber(){
+        System.out.println("Enter the Professor's Phone Number:");
+        phoneNumber=input.nextInt();
     }
 
     public int getOfficeHours(){
