@@ -29,6 +29,7 @@ public class DataParse {
         try {
 
             Scanner console = new Scanner(System.in);
+            // Will be C:\Users\Wasfi\IdeaProjects\GradeSmart\src\data\Class Schedule Listing.html
             System.out.println("Enter the html file where data is stored: ");
             String file = console.nextLine();
             Document document = Jsoup.parse(new File(file), "utf-8");
@@ -46,9 +47,17 @@ public class DataParse {
 
     public static String CSVString (Document document) {
 
-        String title = document.title();
+        // CRN, Course ID, Course Name, Instructor, Location
 
-        return title;
+        Elements table = document.select(".datadisplaytable");
+        String tables = table.toString();
+//        String what = " ";
+//        for(Element CRN : table ) {
+//            what = CRN.text();
+//        }
+
+
+        return tables;
 
 
     }
