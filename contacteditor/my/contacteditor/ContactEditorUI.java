@@ -5,10 +5,8 @@
  */
 package my.contacteditor;
 
-import static com.sun.glass.ui.Cursor.setVisible;
 import static com.sun.org.apache.xerces.internal.util.DOMUtil.setVisible;
 import javax.swing.JOptionPane;
-import static my.contacteditor.gradeSmart.setvisible;
 
 /**
  *
