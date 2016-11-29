@@ -6,6 +6,7 @@ import org.jsoup.select.*;
 
 import java.io.IOException;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -34,8 +35,8 @@ public class DataParse {
             String file = console.nextLine();
             Document document = Jsoup.parse(new File(file), "utf-8");
 
-            String line = CSVString(document); // returns the line to be put into the CSV file
-            System.out.println(line);
+            CSVString(document); // returns the line to be put into the CSV file
+
 
 
 
@@ -49,19 +50,42 @@ public class DataParse {
 
         // CRN, Course ID, Course Name, Instructor, Location
 
-        Elements table = document.select(".datadisplaytable");
-        String tables = table.toString();
-//        String what = " ";
-//        for(Element CRN : table ) {
-//            what = CRN.text();
-//        }
+        ArrayList <String> data = new ArrayList<String>();
+
+        Element table = document.select(".datadisplaytable").get(0);
+//      String tables = table.toString(); // to get the table data.
+        Elements rows = table.select("tr");
+
+        try{
+            PrintWriter writer = new PrintWriter("file.csv", "UTF-8");
+
+        for(int i = 0; i < rows.size(); i++) {
+            Element row = rows.get(i);
+            String rows1 = row.text().toString();
+            writer.println(rows1);
+//            System.out.println(row.text().toString()); //
+//            Elements cols = row.select("td.dddefault");
+//            for (Element d : cols){
+//                data.add(d.text());
+//            }
+        }
+
+        writer.close();
+        } catch (IOException e) {
+            System.out.println("Error in creating CSV file.");
+        }
 
 
+        String tables ="";
         return tables;
 
 
     }
 
+    /**
+     *
+     * Alphabetize the CSV file by Course Name.
+     */
 
 
     public static void main(String [] args) {
