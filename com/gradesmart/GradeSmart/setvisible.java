@@ -3,18 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package my.contacteditor;
+package com.gradesmart.GradeSmart;
 
 /**
  *
  * @author Harpreet
  */
-public class FrmMain {
+class setvisible {
 
-    public FrmMain() {
-    }
-
-    void setVisible(boolean b) {
+    static void gradeSmart() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

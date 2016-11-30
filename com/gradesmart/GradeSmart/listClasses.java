@@ -3,7 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package my.contacteditor;
+package com.gradesmart.GradeSmart;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 
 /**
  *
@@ -26,33 +30,31 @@ public class listClasses extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        GradeSmartPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("GradeSmartPU").createEntityManager();
+        coursesQuery = java.beans.Beans.isDesignTime() ? null : GradeSmartPUEntityManager.createQuery("SELECT c FROM Courses c");
+        coursesList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : coursesQuery.getResultList();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                { new Integer(99999), "CSC 2210", "Adam", "Langdale 213"},
-                { new Integer(70305), "CSC 3320", "John", "Sparks Hall 33"},
-                { new Integer(57542), "CSC 4350", "Bhola", "Aderhold 210"},
-                { new Integer(35453), "CSC 4210", "Lu", "Classroom South 43"}
-            },
-            new String [] {
-                "CRN", "CourseName", "Instructor", "Location"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
         jTable1.setColumnSelectionAllowed(true);
+
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, coursesList, jTable1);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${crn}"));
+        columnBinding.setColumnName("Crn");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${coursename}"));
+        columnBinding.setColumnName("Coursename");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${instructor}"));
+        columnBinding.setColumnName("Instructor");
+        columnBinding.setColumnClass(String.class);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
         jScrollPane1.setViewportView(jTable1);
         jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
@@ -84,6 +86,8 @@ public class listClasses extends javax.swing.JFrame {
                 .addContainerGap(286, Short.MAX_VALUE))
         );
 
+        bindingGroup.bind();
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -91,6 +95,17 @@ public class listClasses extends javax.swing.JFrame {
         // TODO add your handling code here:
         dispose();
         new gradeSmart().setVisible(true);
+        
+        Courses c1 = new Courses();
+        c1.getCrn();
+        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("GradeSmartPU");
+        CoursesJpaController cjc = new CoursesJpaController(emf);
+        cjc.create(c1);
+        
+        
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -129,8 +144,12 @@ public class listClasses extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.persistence.EntityManager GradeSmartPUEntityManager;
+    private java.util.List<com.gradesmart.GradeSmart.Courses> coursesList;
+    private javax.persistence.Query coursesQuery;
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

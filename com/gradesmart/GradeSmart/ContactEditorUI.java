@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package my.contacteditor;
+package com.gradesmart.GradeSmart;
 
 import static com.sun.org.apache.xerces.internal.util.DOMUtil.setVisible;
 import javax.swing.JOptionPane;

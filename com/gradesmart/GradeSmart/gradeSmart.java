@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package my.contacteditor;
+package com.gradesmart.GradeSmart;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static my.contacteditor.gradeSmart.db.DB_PASSWORD;
-import static my.contacteditor.gradeSmart.db.DB_URL;
+import static com.gradesmart.GradeSmart.gradeSmart.db.DB_PASSWORD;
+import static com.gradesmart.GradeSmart.gradeSmart.db.DB_URL;
 
 /**
  *

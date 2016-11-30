@@ -3,7 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package my.contacteditor;
+
+/**
+ * Automatically generated to access the database.
+ * See here for more info: https://www.youtube.com/watch?v=lGpcUu6FHOU
+ */
+package com.gradesmart.GradeSmart.dbaccess;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

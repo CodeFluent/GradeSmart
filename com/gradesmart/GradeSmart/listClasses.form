@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.persistence.EntityManager" name="GradeSmartPUEntityManager">
+      <Properties>
+        <Property name="persistenceUnit" type="java.lang.String" value="GradeSmartPU"/>
+      </Properties>
+    </Component>
+    <Component class="javax.persistence.Query" name="coursesQuery">
+      <Properties>
+        <Property name="query" type="java.lang.String" value="SELECT c FROM Courses c"/>
+        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
+          <ComponentRef name="GradeSmartPUEntityManager"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="java.util.List" name="coursesList">
+      <Properties>
+        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
+          <ComponentRef name="coursesQuery"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;com.gradesmart.GradeSmart.Courses&gt;"/>
+      </AuxValues>
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -56,34 +81,6 @@
       <SubComponents>
         <Component class="javax.swing.JTable" name="jTable1">
           <Properties>
-            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="4">
-                <Column editable="true" title="CRN" type="java.lang.Integer">
-                  <Data value="99999"/>
-                  <Data value="70305"/>
-                  <Data value="57542"/>
-                  <Data value="35453"/>
-                </Column>
-                <Column editable="true" title="CourseName" type="java.lang.String">
-                  <Data value="CSC 2210"/>
-                  <Data value="CSC 3320"/>
-                  <Data value="CSC 4350"/>
-                  <Data value="CSC 4210"/>
-                </Column>
-                <Column editable="true" title="Instructor" type="java.lang.String">
-                  <Data value="Adam"/>
-                  <Data value="John"/>
-                  <Data value="Bhola"/>
-                  <Data value="Lu"/>
-                </Column>
-                <Column editable="true" title="Location" type="java.lang.Object">
-                  <Data value="Langdale 213"/>
-                  <Data value="Sparks Hall 33"/>
-                  <Data value="Aderhold 210"/>
-                  <Data value="Classroom South 43"/>
-                </Column>
-              </Table>
-            </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="3">
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
@@ -113,6 +110,19 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <BindingProperties>
+            <BindingProperty name="elements" source="coursesList" target="jTable1" targetPath="elements" updateStrategy="0" immediately="true">
+              <Subbinding sourcePath="${crn}">
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
+              </Subbinding>
+              <Subbinding sourcePath="${coursename}">
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+              </Subbinding>
+              <Subbinding sourcePath="${instructor}">
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+              </Subbinding>
+            </BindingProperty>
+          </BindingProperties>
         </Component>
       </SubComponents>
     </Container>
