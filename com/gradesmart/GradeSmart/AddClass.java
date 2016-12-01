@@ -13,12 +13,12 @@ import javax.persistence.Persistence;
  *
  * @author Harpreet
  */
-public class listClasses extends javax.swing.JFrame {
+public class AddClass extends javax.swing.JFrame {
 
     /**
-     * Creates new form listClasses
+     * Creates new form AddClass
      */
-    public listClasses() {
+    public AddClass() {
         initComponents();
     }
 
@@ -35,15 +35,21 @@ public class listClasses extends javax.swing.JFrame {
         GradeSmartPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("GradeSmartPU").createEntityManager();
         coursesQuery = java.beans.Beans.isDesignTime() ? null : GradeSmartPUEntityManager.createQuery("SELECT c FROM Courses c");
         coursesList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : coursesQuery.getResultList();
+        userCoursesQuery = java.beans.Beans.isDesignTime() ? null : GradeSmartPUEntityManager.createQuery("SELECT u FROM UserCourses u");
+        userCoursesList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : userCoursesQuery.getResultList();
+        coursesQuery1 = java.beans.Beans.isDesignTime() ? null : GradeSmartPUEntityManager.createQuery("SELECT c FROM Courses c");
+        coursesList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : coursesQuery1.getResultList();
+        coursesQuery2 = java.beans.Beans.isDesignTime() ? null : GradeSmartPUEntityManager.createQuery("SELECT c FROM Courses c");
+        coursesList2 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : coursesQuery2.getResultList();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        courseTable = new javax.swing.JTable();
+        selectButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
-        jTable1.setColumnSelectionAllowed(true);
+        courseTable.setColumnSelectionAllowed(false);
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, coursesList, jTable1);
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, coursesList, courseTable);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${crn}"));
         columnBinding.setColumnName("Crn");
         columnBinding.setColumnClass(Integer.class);
@@ -55,13 +61,13 @@ public class listClasses extends javax.swing.JFrame {
         columnBinding.setColumnClass(String.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
-        jScrollPane1.setViewportView(jTable1);
-        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        jScrollPane1.setViewportView(courseTable);
+        courseTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-        jButton1.setText("SELECT");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        selectButton.setText("SELECT");
+        selectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                selectButtonActionPerformed(evt);
             }
         });
 
@@ -73,16 +79,16 @@ public class listClasses extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(171, 171, 171)
-                        .addComponent(jButton1))
+                        .addComponent(selectButton))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 402, Short.MAX_VALUE))
+                .addContainerGap(585, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11)
-                .addComponent(jButton1)
+                .addComponent(selectButton)
                 .addContainerGap(286, Short.MAX_VALUE))
         );
 
@@ -91,22 +97,50 @@ public class listClasses extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        dispose();
-        new gradeSmart().setVisible(true);
+    private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
+        // optional: ask user if they wish to add the following courses. update CID. 
+        // optional: textfields for user input https://www.youtube.com/watch?v=uJUXyhya3YM
         
-        Courses c1 = new Courses();
-        c1.getCrn();
+       // here we open the database for all the Courses for user selection which
+       // will be populated into a new table UserCourses.
+        Courses c1 = new Courses(); 
+        UserCourses u1 = new UserCourses();
+       
+              
+    
+        
+        
+        int [] selectedRows = courseTable.getSelectedRows();
+        for (int i = 0; i < selectedRows.length; i++) {
+            u1.setCrn(Integer.parseInt(courseTable.getValueAt(i, 0).toString()));
+            u1.setCoursename(courseTable.getValueAt(i,1).toString());
+            u1.setInstructor(courseTable.getValueAt(i,2).toString());
+            System.out.print(u1.getCrn() + "\t" + u1.getCoursename() + "\t" + u1.getInstructor() + "\n");
+          
+            // create query and send to user_courses database.
+         
+            
+        }
         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("GradeSmartPU");
-        CoursesJpaController cjc = new CoursesJpaController(emf);
-        cjc.create(c1);
+       
+        UserCoursesJpaController ujc = new UserCoursesJpaController(emf);
         
+        try {
+            ujc.create(u1);
+        } catch(Exception e) {
+            System.err.println("Entity already exists");
+        }
         
+        // can only add one class at a time? entity object acting up.
+        // create another form for database response. lets see what it does.
         
+//        this.setVisible(false); // hide jframe once classes are added.
+
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+       
+        
+    }//GEN-LAST:event_selectButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -125,31 +159,40 @@ public class listClasses extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(listClasses.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddClass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(listClasses.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddClass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(listClasses.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddClass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(listClasses.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddClass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new listClasses().setVisible(true);
+                new AddClass().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.persistence.EntityManager GradeSmartPUEntityManager;
+    private javax.swing.JTable courseTable;
     private java.util.List<com.gradesmart.GradeSmart.Courses> coursesList;
+    private java.util.List<com.gradesmart.GradeSmart.Courses> coursesList1;
+    private java.util.List<com.gradesmart.GradeSmart.Courses> coursesList2;
     private javax.persistence.Query coursesQuery;
-    private javax.swing.JButton jButton1;
+    private javax.persistence.Query coursesQuery1;
+    private javax.persistence.Query coursesQuery2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JButton selectButton;
+    private java.util.List<com.gradesmart.GradeSmart.UserCourses> userCoursesList;
+    private javax.persistence.Query userCoursesQuery;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

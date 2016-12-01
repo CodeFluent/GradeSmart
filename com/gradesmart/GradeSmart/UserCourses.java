@@ -16,21 +16,19 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Wasfi
  */
 @Entity
-@Table(name = "COURSES")
-@XmlRootElement
+@Table(name = "USER_COURSES")
 @NamedQueries({
-    @NamedQuery(name = "Courses.findAll", query = "SELECT c FROM Courses c")
-    , @NamedQuery(name = "Courses.findByCrn", query = "SELECT c FROM Courses c WHERE c.crn = :crn")
-    , @NamedQuery(name = "Courses.findByCoursename", query = "SELECT c FROM Courses c WHERE c.coursename = :coursename")
-    , @NamedQuery(name = "Courses.findByInstructor", query = "SELECT c FROM Courses c WHERE c.instructor = :instructor")})
-public class Courses implements Serializable {
+    @NamedQuery(name = "UserCourses.findAll", query = "SELECT u FROM UserCourses u")
+    , @NamedQuery(name = "UserCourses.findByCrn", query = "SELECT u FROM UserCourses u WHERE u.crn = :crn")
+    , @NamedQuery(name = "UserCourses.findByCoursename", query = "SELECT u FROM UserCourses u WHERE u.coursename = :coursename")
+    , @NamedQuery(name = "UserCourses.findByInstructor", query = "SELECT u FROM UserCourses u WHERE u.instructor = :instructor")})
+public class UserCourses implements Serializable {
 
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
@@ -45,10 +43,10 @@ public class Courses implements Serializable {
     @Column(name = "INSTRUCTOR")
     private String instructor;
 
-    public Courses() {
+    public UserCourses() {
     }
 
-    public Courses(Integer crn) {
+    public UserCourses(Integer crn) {
         this.crn = crn;
     }
 
@@ -92,10 +90,10 @@ public class Courses implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Courses)) {
+        if (!(object instanceof UserCourses)) {
             return false;
         }
-        Courses other = (Courses) object;
+        UserCourses other = (UserCourses) object;
         if ((this.crn == null && other.crn != null) || (this.crn != null && !this.crn.equals(other.crn))) {
             return false;
         }
@@ -104,7 +102,7 @@ public class Courses implements Serializable {
 
     @Override
     public String toString() {
-        return "com.gradesmart.GradeSmart.Courses[ crn=" + crn + " ]";
+        return "com.gradesmart.GradeSmart.UserCourses[ crn=" + crn + " ]";
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {

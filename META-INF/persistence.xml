@@ -3,6 +3,7 @@
   <persistence-unit name="GradeSmartPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.gradesmart.GradeSmart.Courses</class>
+    <class>com.gradesmart.GradeSmart.UserCourses</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/gradesmartdb"/>
       <property name="javax.persistence.jdbc.user" value="wasfi"/>
