@@ -5,9 +5,12 @@
  */
 package com.gradesmart.GradeSmart;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
+import static com.gradesmart.GradeSmart.gradeSmart.db.DB_URL;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+//import javax.persistence.EntityManagerFactory;
+//import javax.persistence.Persistence;
 
 /**
  *
@@ -41,15 +44,23 @@ public class AddClass extends javax.swing.JFrame {
         coursesList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : coursesQuery1.getResultList();
         coursesQuery2 = java.beans.Beans.isDesignTime() ? null : GradeSmartPUEntityManager.createQuery("SELECT c FROM Courses c");
         coursesList2 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : coursesQuery2.getResultList();
+        coursesQuery3 = java.beans.Beans.isDesignTime() ? null : GradeSmartPUEntityManager.createQuery("SELECT c FROM Courses c");
+        coursesList3 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : coursesQuery3.getResultList();
+        coursesQuery4 = java.beans.Beans.isDesignTime() ? null : GradeSmartPUEntityManager.createQuery("SELECT c FROM Courses c");
+        coursesList4 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : coursesQuery4.getResultList();
+        userCoursesQuery1 = java.beans.Beans.isDesignTime() ? null : GradeSmartPUEntityManager.createQuery("SELECT u FROM UserCourses u");
+        userCoursesList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : userCoursesQuery1.getResultList();
         jScrollPane1 = new javax.swing.JScrollPane();
         courseTable = new javax.swing.JTable();
         selectButton = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         courseTable.setColumnSelectionAllowed(false);
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, coursesList, courseTable);
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, coursesList4, courseTable);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${crn}"));
         columnBinding.setColumnName("Crn");
         columnBinding.setColumnClass(Integer.class);
@@ -71,6 +82,21 @@ public class AddClass extends javax.swing.JFrame {
             }
         });
 
+        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, userCoursesList1, jTable1);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${crn}"));
+        columnBinding.setColumnName("Crn");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${coursename}"));
+        columnBinding.setColumnName("Coursename");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${instructor}"));
+        columnBinding.setColumnName("Instructor");
+        columnBinding.setColumnClass(String.class);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
+
+        jScrollPane2.setViewportView(jTable1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -81,7 +107,9 @@ public class AddClass extends javax.swing.JFrame {
                         .addGap(171, 171, 171)
                         .addComponent(selectButton))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(585, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(200, 200, 200))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -90,6 +118,10 @@ public class AddClass extends javax.swing.JFrame {
                 .addGap(11, 11, 11)
                 .addComponent(selectButton)
                 .addContainerGap(286, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
         );
 
         bindingGroup.bind();
@@ -97,48 +129,61 @@ public class AddClass extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
+//    
     private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
-        // optional: ask user if they wish to add the following courses. update CID. 
-        // optional: textfields for user input https://www.youtube.com/watch?v=uJUXyhya3YM
+//        // optional: ask user if they wish to add the following courses. update CID. 
+//        // optional: textfields for user input https://www.youtube.com/watch?v=uJUXyhya3YM
+//        
+           String DB_URL = "jdbc:derby://localhost:1527/gradesmartdb"; 
+           String DB_USER = "wasfi";
+           String DB_PASSWORD = "wasfi";
         
        // here we open the database for all the Courses for user selection which
        // will be populated into a new table UserCourses.
         Courses c1 = new Courses(); 
         UserCourses u1 = new UserCourses();
-       
-              
-    
-        
-        
-        int [] selectedRows = courseTable.getSelectedRows();
-        for (int i = 0; i < selectedRows.length; i++) {
-            u1.setCrn(Integer.parseInt(courseTable.getValueAt(i, 0).toString()));
-            u1.setCoursename(courseTable.getValueAt(i,1).toString());
-            u1.setInstructor(courseTable.getValueAt(i,2).toString());
-            System.out.print(u1.getCrn() + "\t" + u1.getCoursename() + "\t" + u1.getInstructor() + "\n");
-          
-            // create query and send to user_courses database.
-         
+
+
+        // create query and send to user_courses database.
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            Statement updateUserCourse = conn.createStatement();
+            ResultSet rs = null;
+             
+            //optional: select multiple rows
+              int selectedRow = courseTable.getSelectedRow();
+
+                 u1.setCrn(Integer.parseInt(courseTable.getValueAt(selectedRow, 0).toString()));
+                 u1.setCoursename(courseTable.getValueAt(selectedRow,1).toString());
+                 u1.setInstructor(courseTable.getValueAt(selectedRow,2).toString());
+                 
+            
+
+                 System.out.print(u1.getCrn() + "\t" + u1.getCoursename() + "\t" + u1.getInstructor() + "\n");
+                 String query = "INSERT INTO USER_COURSES (CRN, COURSENAME, INSTRUCTOR) VALUES(" + u1.getCrn() +", '" + 
+                            u1.getCoursename() + "', '" + u1.getInstructor() + "')";
+                 
+                 updateUserCourse.executeUpdate(query);
+                 
+                 
+                System.out.println(query);
+
+
+                            
+           
+            
+        } catch (SQLException ex) {
+            System.err.println("SQL connection failed." );
+            ex.printStackTrace();
+            
+            Logger.getLogger(gradeSmart.class.getName()).log(Level.SEVERE, null, ex);
             
         }
+         
         
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("GradeSmartPU");
-       
-        UserCoursesJpaController ujc = new UserCoursesJpaController(emf);
         
-        try {
-            ujc.create(u1);
-        } catch(Exception e) {
-            System.err.println("Entity already exists");
-        }
-        
-        // can only add one class at a time? entity object acting up.
-        // create another form for database response. lets see what it does.
-        
-//        this.setVisible(false); // hide jframe once classes are added.
-
-        
-       
+//        this.setVisible(false); // hide jframe once classes are added
         
     }//GEN-LAST:event_selectButtonActionPerformed
 
@@ -186,13 +231,21 @@ public class AddClass extends javax.swing.JFrame {
     private java.util.List<com.gradesmart.GradeSmart.Courses> coursesList;
     private java.util.List<com.gradesmart.GradeSmart.Courses> coursesList1;
     private java.util.List<com.gradesmart.GradeSmart.Courses> coursesList2;
+    private java.util.List<com.gradesmart.GradeSmart.Courses> coursesList3;
+    private java.util.List<com.gradesmart.GradeSmart.Courses> coursesList4;
     private javax.persistence.Query coursesQuery;
     private javax.persistence.Query coursesQuery1;
     private javax.persistence.Query coursesQuery2;
+    private javax.persistence.Query coursesQuery3;
+    private javax.persistence.Query coursesQuery4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JButton selectButton;
     private java.util.List<com.gradesmart.GradeSmart.UserCourses> userCoursesList;
+    private java.util.List<com.gradesmart.GradeSmart.UserCourses> userCoursesList1;
     private javax.persistence.Query userCoursesQuery;
+    private javax.persistence.Query userCoursesQuery1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
